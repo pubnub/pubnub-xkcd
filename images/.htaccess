@@ -1,0 +1,4 @@
+<FilesMatch "\.(png|gif)$">
+   SetEnvIf Origin "^http(s)?://(.+\.)?(1110\.n01se\.net|n01se\.net)$" origin_is=$0
+   Header set Access-Control-Allow-Origin %{origin_is}e env=origin_is
+</FilesMatch>
