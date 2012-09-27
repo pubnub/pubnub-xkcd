@@ -1,9 +1,9 @@
-var send_poll_interval = 1500;
+var send_poll_interval = 600;
 var swing = 2;
 var friction = 0.01;
 var pullPower = 0.0003;
 var message_time = 15000;
-var maxMsgLength = 20;
+var maxMsgLength = 40;
 var collide_bounce = 0.0;
 var idleTime1 = 30; // seconds
 var idleTime2 = 15; // seconds
@@ -90,17 +90,16 @@ var skins = {
       avatar.dx = roundAt(applyMousePull(avatar.dx, mousepull.x, skin.maxSpeed), 4);
       avatar.dy = roundAt(applyMousePull(avatar.dy, mousepull.y, skin.maxSpeed), 4);
 
-      avatar.last_update = avatar.last_update || now;
-      var dx = avatar.dx * (now - avatar.last_update),
-	  dy = avatar.dy * (now - avatar.last_update);
+      avatar._last_update = avatar._last_update || now;
+      var dx = avatar.dx * (now - avatar._last_update),
+	  dy = avatar.dy * (now - avatar._last_update);
 
       avatar.x = roundAt(avatar.x + dx, 1);
       avatar.y = roundAt(avatar.y + dy, 1);
       if(dx != 0) {
         avatar.last_dx = roundAt(dx, 3);
       }
-      avatar.last_update = now;
-      pending_update = avatar;
+      avatar._last_update = now;
     }
   },
   sticky: {
@@ -125,11 +124,10 @@ var skins = {
     update: function(skin, now) {
       avatar.dx = roundAt(applyMousePull(avatar.dx, mousepull.x, skin.maxSpeed), 4);
       avatar.dy = roundAt(applyMousePull(avatar.dy, mousepull.y, skin.maxSpeed) + (avatar.y > -25000 ? -0.008 : 0), 4);
-      pending_update = avatar;
 
-      avatar.last_update = avatar.last_update || now;
-      var dx = avatar.dx * (now - avatar.last_update),
-	  dy = avatar.dy * (now - avatar.last_update);
+      avatar._last_update = avatar._last_update || now;
+      var dx = avatar.dx * (now - avatar._last_update),
+	  dy = avatar.dy * (now - avatar._last_update);
 
       // Collision detection
       if (dx || dy) {
@@ -167,14 +165,14 @@ var skins = {
 
       avatar.x = roundAt(avatar.x + dx, 1);
       avatar.y = roundAt(avatar.y + dy, 1);
-      avatar.last_update = now;
+      avatar._last_update = now;
     }
   }
 };
 
 function drawAvatar(avatar, ox, oy, id) {
   var skin = skins[avatar.skin || "sticky"];
-  var skinTime = (avatar.sent || new Date()) - (avatar.skinUpdate || 0);
+  var skinTime = (new Date()) - (avatar._skinUpdate || 0);
   if(skinTime > 200) {
     skin.draw(skin, avatar, ox, oy, avatar.dx, id);
   }
@@ -209,12 +207,10 @@ var avatar = {
   dx : 0,
   dy : 0,
   msg : "",
-  last_update : 0};
+  _last_update : 0};
 
 var pulling = false;
 var mousepull = {x:0, y:0};
-
-var pending_update = null;
 
 var tile_name=function(x,y){
   return (y>=0?(y+1)+'s':-y+'n')+(x>=0?(x+1)+'e':-x+'w');
@@ -276,9 +272,9 @@ var draw = function() {
   // Draw the other avatars
   for(avatarId in allAvatars) {
     oa = allAvatars[avatarId];
-    if(avatarId != clientId && oa.last_update) {
-      ox = oa.x - Math.round(avatar.x) + oa.dx * (now - oa.last_update);
-      oy = oa.y - Math.round(avatar.y) + oa.dy * (now - oa.last_update);
+    if(avatarId != clientId) {
+      ox = oa.x - Math.round(avatar.x) + oa.dx * (now - oa._last_update);
+      oy = oa.y - Math.round(avatar.y) + oa.dy * (now - oa._last_update);
       drawAvatar(oa, ox, oy, avatarId);
       //console.log("client", avatarId, "at", ox, oy);
     }
@@ -291,17 +287,21 @@ var draw = function() {
   drawAvatar(avatar, 0, 0, clientId);
 };
 
-var UUID = clientId = PUBNUB.uuid();
 
-var polli = setInterval(function () {
-  if (window.ws && ws.readyState && pending_update) {
-    pending_update.sent = (new Date()).getTime();
-    if(!pending_update.skinUpdate) pending_update.skinUpdate = pending_update.sent;
-    var msg = $.extend(false, {}, pending_update);
-    delete msg["last_update"];
-    msg.id = UUID;
-    ws.send(msg);
-    pending_update = null;
+var oldAvatar = {};
+var ival = setInterval(function () {
+  if (window.ws && ws.readyState) {
+    var msg = {id:clientId};
+    for(var key in avatar) {
+      if (key[0] !== "_" &&
+          (avatar[key] !== oldAvatar[key])) {
+        msg[key] = avatar[key];
+      }
+    }
+    if (Object.keys(msg).length) {
+      ws.send(msg);
+    }
+    oldAvatar = $.extend({}, avatar)
   }
 }, send_poll_interval);
 
@@ -329,7 +329,7 @@ var idle2 = function() {
   if(connected) {
     idleWarning = false;
     ws.close();
-    clearInterval(polli);
+    clearInterval(ival);
   }
 };
 var clearIdle = function() {
@@ -363,8 +363,7 @@ $('#viewport').mousedown(function(e){
   {
     var slist = Object.keys(skins)
     avatar.skin = slist[(slist.indexOf(avatar.skin)+1)%slist.length];
-    avatar.skinUpdate = (new Date()).getTime();
-    pending_update = avatar;
+    avatar._skinUpdate = (new Date()).getTime();
   }
 });
 $('body').mousemove(function(e){
@@ -391,7 +390,6 @@ var clearNextMessage = false;
 var messageTimeout = function () {
       messageTimer = null;
       avatar.msg = "";
-      pending_update = avatar;
 };
 
 $(document).keydown(function(e){
@@ -415,10 +413,8 @@ $(document).keyup(function(e){
   if (key === 8 || key === 46) {
     clearNextMessage = false;
     avatar.msg = avatar.msg.substring(0, avatar.msg.length-1);
-    pending_update = avatar;
   }
 });
-
 
 $(document).keypress(function(e){
   restartIdle();
@@ -430,7 +426,6 @@ $(document).keypress(function(e){
     var m = /^i am (.*)/i.exec(avatar.msg);
     if(m) {
       avatar.nick = m[1];
-      pending_update = avatar;
     }
   } else {
     if (clearNextMessage) {
@@ -440,6 +435,5 @@ $(document).keypress(function(e){
     if (avatar.msg.length < maxMsgLength) {
       avatar.msg += String.fromCharCode(chr);
     }
-    pending_update = avatar;
   }
 });
