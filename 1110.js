@@ -288,8 +288,12 @@ var draw = function() {
 };
 
 
-var oldAvatar = {};
-var ival = setInterval(function () {
+var oldAvatar  = {};
+var mps        = 0;
+var mmps       = 0;
+var min_sample = 100;
+var ival       = 0;
+var sample_delivery = function () {
   if (window.ws && ws.readyState) {
     var msg = {id:clientId};
     for(var key in avatar) {
@@ -303,7 +307,22 @@ var ival = setInterval(function () {
     }
     oldAvatar = $.extend({}, avatar)
   }
-}, send_poll_interval);
+}
+function set_sample() {
+    clearInterval(ival);
+    ival = setInterval( sample_delivery, send_poll_interval );
+}
+set_sample();
+
+// Vary Sample Rate
+setInterval( function() {
+    mmps = mmps > mps ? mmps : mps;
+    send_poll_interval = Math.ceil((mps||1)/2) * min_sample;
+    send_poll_interval = send_poll_interval > 1000 ? 1000 : send_poll_interval;
+    console.log(mps,mmps,'new_sample',send_poll_interval);
+    mps = 0;
+    set_sample();
+}, 1000 );
 
 var animate = function() {
   draw();
@@ -319,8 +338,9 @@ var idleTimeout, idleWarning;
 var idle1 = function() {
   if(connected) {
       idleWarning = true;
-      $('#message').html("You have been idle for " + idleTime1 + " seconds. To reduce server load,<br>" +
-              "if you don't act within " + idleTime2 + " seconds, you will be disconnected.")
+      $('#message').html("You have been idle for " + idleTime1 + " seconds.<br>" +
+      "If you don't act within " + idleTime2 +
+      " seconds, you will be disconnected.")
         .css("background", "red");
       idleTimeout = setTimeout(idle2, idleTime2 * 1000);
   }

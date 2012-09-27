@@ -1,8 +1,7 @@
-var ws, clientId = PUBNUB.uuid().split('-')[0], allAvatars={}, connected,
-    netDebug = 5;
+var ws, clientId = PUBNUB.uuid().split('-')[0], allAvatars={}, connected, netDebug = 5;
 
-// hackernews mitigation:
-serverURI = "ws://pubsub.pubnub.com/demo/demo/xkcd"
+// hackernews mitigation by PUBNUB:
+serverURI = "ws://pubsub.pubnub.com/09e02e4d-5508-44fb-a615-8da69289b73c/a71204b3-ca89-11df-ba32-cfcef4a2b967/xkcd"
 
 window.addEventListener('load', function () {
   console.log("Connecting to server:" + serverURI);
@@ -12,9 +11,10 @@ window.addEventListener('load', function () {
     connected = true;
   };
   ws.onmessage = function (e) {
+    mps++;
     if (netDebug > 0) {
       console.log("WebSocket message received: ", JSON.stringify(e.data));
-      //netDebug--;
+      netDebug--;
     }
     connected = true;
     var now = (new Date()).getTime();

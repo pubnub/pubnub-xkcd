@@ -12,7 +12,19 @@ Meanwhile, enjoy.
     <link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css'>
   </head>
   <body style="height: 100%; margin: 0; text-align: center; font: 12pt Walter Turncoat, Comic Sans, Arial">
-    <footer style="position: absolute; bottom: 10px; width: 100%">
+    <div style="padding-top: 5%;position:relative;">
+      <canvas id="viewport" width="740" height="649" style="border: 1px #000 solid"></canvas>
+      <br><br>
+      <div id="message">
+<!--
+Hello HackerNews.
+WE ARE PUBNUB.
+You don't have to worry about scaling here.
+Meanwhile, enjoy.
+-->
+      </div>
+    </div>
+    <footer style="width: 100%">
     Homage to <a href='https://github.com/n01se/1110'>n01se</a> and xkcd,
     especially <a href="http://xkcd.com/1110/">1110</a>.
     No server required courtesy of <a href="http://www.pubnub.com/">PubNub</a>.
@@ -30,18 +42,6 @@ Meanwhile, enjoy.
     style=""
     >
     </footer>
-    <div style="padding-top: 5%;position:relative;">
-      <canvas id="viewport" width="740" height="649" style="border: 1px #000 solid"></canvas>
-      <br><br>
-      <div id="message">
-<!--
-Hello HackerNews.
-WE ARE PUBNUB.
-You don't have to worry about scaling here.
-Meanwhile, enjoy.
--->
-      </div>
-    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script src="https://pubnub.a.ssl.fastly.net/pubnub-3.3.min.js"></script>
 
