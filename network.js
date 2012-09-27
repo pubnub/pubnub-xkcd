@@ -4,7 +4,7 @@ var ws, clientId = PUBNUB.uuid().split('-')[0], allAvatars={}, connected, netDeb
 serverURI = "ws://pubsub.pubnub.com/09e02e4d-5508-44fb-a615-8da69289b73c/a71204b3-ca89-11df-ba32-cfcef4a2b967/xkcd"
 
 window.addEventListener('load', function () {
-  console.log("Connecting to server:" + serverURI);
+  console.log("Connecting to PubNub");
   ws = new WebSocket(serverURI);
   ws.onopen = function () {
     console.log("WebSocket connection established");
@@ -53,13 +53,10 @@ window.addEventListener('load', function () {
     connected = false;
     //console.log("WebSocket connection closed:", e, e);
     if (e.code === 1008 || e.code === 1009) {
-      msg.innerHTML = "Disconnected from server"
+      msg.innerHTML = "Disconnected from PubNub"
       if (e.reason) {
         msg.innerHTML += ": " + e.reason;
       }
-      msg.innerHTML += "<br>You can also run your own server. " +
-          "Get the code <a href='https://github.com/n01se/1110'>on github</a>.<br>" +
-          "Or <a href='http://www.youtube.com/watch?v=EvLxOVYeo5w'>watch a preview</a>";
     } else {
       msg.innerHTML = "No connection to server";
     }
