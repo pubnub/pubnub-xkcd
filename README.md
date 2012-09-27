@@ -2,7 +2,7 @@
 
 Your browser must support Canvas.
 
-We recorded a [preview](http://www.youtube.com/watch?v=EvLxOVYeo5w).
+![xkcd on PubNub](https://pubnub.s3.amazonaws.com/2012/pubnub-large.png "xkcd on PubNub")
 
 All images are licensed under a Creative Commons Attribution-NonCommercial 2.5
 License and based on similarly licensed work at
