@@ -2,7 +2,7 @@
 
 Your browser must support Canvas, WebSockets courtesy of PubNub.
 
-## UPDATES
+#### UPDATES
 
  - Added iPad and iPhone / Android Support with Touch!
  - Fixes on performance.
@@ -23,9 +23,11 @@ Type to talk.
 Press Enter to Clear.
 Type "I am YOURNAME" and Press Enter.
 
- - ![xkcd on PubNub](https://pubnub.s3.amazonaws.com/2012/pubnub-large.png "xkcd on PubNub")
- - [http://www.pubnub.com/ - PubNub HQ](http://www.pubnub.com/)
- - ![xkcd on PubNub](http://s3-us-west-1.amazonaws.com/pubnub-xkcd/pubnub-xkcd.png "xkcd on PubNub")
+![xkcd on PubNub](https://pubnub.s3.amazonaws.com/2012/pubnub-large.png "xkcd on PubNub")
+
+[http://www.pubnub.com/ - PubNub HQ](http://www.pubnub.com/)
+
+![xkcd on PubNub](http://s3-us-west-1.amazonaws.com/pubnub-xkcd/pubnub-xkcd.png "xkcd on PubNub")
 
 All images are licensed under a Creative Commons Attribution-NonCommercial 2.5
 License and based on similarly licensed work at
