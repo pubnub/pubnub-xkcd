@@ -1,6 +1,4 @@
-# I just didn't expect it to be so big
-
-A multi-user homage to [xkcd PubNub](http://s3-us-west-1.amazonaws.com/pubnub-xkcd/index.html).
+# A multi-user homage to [xkcd PubNub](http://s3-us-west-1.amazonaws.com/pubnub-xkcd/index.html).
 
 Your browser must support Canvas.
 
