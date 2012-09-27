@@ -2,6 +2,8 @@
 
 Your browser must support Canvas.
 
+![xkcd on PubNub](http://s3-us-west-1.amazonaws.com/pubnub-xkcd/pubnub-xkcd.png "xkcd on PubNub")
+
 ![xkcd on PubNub](https://pubnub.s3.amazonaws.com/2012/pubnub-large.png "xkcd on PubNub")
 
 All images are licensed under a Creative Commons Attribution-NonCommercial 2.5
