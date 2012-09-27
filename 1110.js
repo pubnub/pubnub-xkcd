@@ -319,7 +319,7 @@ setInterval( function() {
     mmps = mmps > mps ? mmps : mps;
     send_poll_interval = Math.ceil((mps||1)/2) * min_sample;
     send_poll_interval = send_poll_interval > 1000 ? 1000 : send_poll_interval;
-    console.log(mps,mmps,'new_sample',send_poll_interval);
+    //console.log(mps,mmps,'new_sample',send_poll_interval);
     mps = 0;
     set_sample();
 }, 1000 );
@@ -367,7 +367,7 @@ var restartIdle = function() {
 restartIdle();
 
 
-$('#viewport').mousedown(function(e){
+PUBNUB.bind( 'mousedown,touchstart', PUBNUB.$('viewport'), (function(e){
   restartIdle();
   var offset = $('#viewport').offset();
   var x = e.clientX - offset.left;
@@ -385,8 +385,8 @@ $('#viewport').mousedown(function(e){
     avatar.skin = slist[(slist.indexOf(avatar.skin)+1)%slist.length];
     avatar._skinUpdate = (new Date()).getTime();
   }
-});
-$('body').mousemove(function(e){
+}) );
+PUBNUB.bind( 'mousemove,touchmove', $('body').get(0), (function(e){
   if(pulling) {
     restartIdle();
     var offset = $('#viewport').offset();
@@ -395,11 +395,12 @@ $('body').mousemove(function(e){
     mousepull = {x: (20+canvas_center.x)-x,
                  y: (20+canvas_center.y)-y};
   }
-}).mouseup(function(e){
+}) )
+PUBNUB.bind( 'mouseup,touchend', $('body').get(0), (function(e){
   restartIdle();
   pulling = false;
   mousepull = {x:0, y:0};
-});
+}) );
 
 
 // Key/message handling
