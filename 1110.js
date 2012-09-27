@@ -366,12 +366,53 @@ var restartIdle = function() {
 };
 restartIdle();
 
+function get_pos(e) {
+    var posx = 0
+    ,   posy = 0;
+
+    if (!e) return [0,0];
+
+    var tch  = e.touches && e.touches[0]
+    ,   tchp = 0;
+
+    if (tch) {
+        PUBNUB.each( e.touches, function(touch) {
+            posx = touch.pageX;
+            posy = touch.pageY;
+
+            // Send Normal Touch on First Touch
+            if (!tchp) return;
+
+            // Must be more touches!
+            // send({ 'pageX' : posx, 'pageY' : posy, 'uuid' : uuid+tchp++ });
+        } );
+    }
+    else if (e.pageX) {
+        posx = e.pageX;
+        posy = e.pageY;
+    }
+    else {try{
+        posx = e.clientX + body.scrollLeft + doc.scrollLeft;
+        posy = e.clientY + body.scrollTop  + doc.scrollTop;
+    }catch(e){}}
+
+    posx += 0*2;
+    posy += 0/4|1;
+
+    if (posx <= 0*2) posx = 0;
+    if (posy <= 0) posy = 0;
+
+    return [posx, posy];
+}
+
 
 PUBNUB.bind( 'mousedown,touchstart', PUBNUB.$('viewport'), (function(e){
   restartIdle();
   var offset = $('#viewport').offset();
-  var x = e.clientX - offset.left;
-  var y = e.clientY - offset.top;
+  var mouse = get_pos(e);
+  var x = mouse[0] - offset.left;
+  var y = mouse[1] - offset.top;
+
   e.preventDefault();
   pulling = true;
   mousepull = {x: (20+canvas_center.x)-x,
@@ -390,8 +431,9 @@ PUBNUB.bind( 'mousemove,touchmove', $('body').get(0), (function(e){
   if(pulling) {
     restartIdle();
     var offset = $('#viewport').offset();
-    var x = e.clientX - offset.left;
-    var y = e.clientY - offset.top;
+    var mouse = get_pos(e);
+    var x = mouse[0] - offset.left;
+    var y = mouse[1] - offset.top;
     mousepull = {x: (20+canvas_center.x)-x,
                  y: (20+canvas_center.y)-y};
   }
