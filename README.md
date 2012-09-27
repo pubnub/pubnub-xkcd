@@ -1,6 +1,6 @@
-# A multi-user homage to [xkcd PubNub](http://s3-us-west-1.amazonaws.com/pubnub-xkcd/index.html).
+# A multi-user homage to [xkcd PubNub](http://www.pubnu.com.com/pubnub-xkcd/index.html).
 
-Your browser must support Canvas.
+Your browser must support Canvas, WebSockets courtesy of PubNub.
 
 #### Credits
 
@@ -8,7 +8,11 @@ Homage to xkcd, originally by n01se. No server required courtesy of PubNub.
 
 #### Instructions
 
-Type to talk. Press Enter to Clear. Type "I am YOUR_NAME" and Press Enter.
+Type to talk.
+Click to Move.
+Type to talk.
+Press Enter to Clear.
+Type "I am YOURNAME" and Press Enter.
 
 ![xkcd on PubNub](https://pubnub.s3.amazonaws.com/2012/pubnub-large.png "xkcd on PubNub")
 
@@ -23,5 +27,5 @@ the [MPL 2.0](http://www.mozilla.org/MPL/2.0/)
 
 ## Running your own server
 
-- No need!  Just view here - http://s3-us-west-1.amazonaws.com/pubnub-xkcd/index.html
+No need! Just view here - http://www.pubnub.com/pubnub-xkcd/index.html
 
