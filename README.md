@@ -2,6 +2,14 @@
 
 Your browser must support Canvas.
 
+#### Credits
+
+Homage to xkcd, originally by n01se. No server required courtesy of PubNub. 
+
+#### Instructions
+
+Type to talk. Press Enter to Clear. Type "I am YOUR_NAME" and Press Enter.
+
 ![xkcd on PubNub](https://pubnub.s3.amazonaws.com/2012/pubnub-large.png "xkcd on PubNub")
 
 [http://www.pubnub.com/ - PubNub HQ](http://www.pubnub.com/)
