@@ -2,9 +2,18 @@
 
 Your browser must support Canvas, WebSockets courtesy of PubNub.
 
+## UPDATES
+
+ - Added iPad and iPhone / Android Support with Touch!
+ - Fixes on performance.
+ - WebSockets fixes RFC
+
+
 #### Credits
 
-Homage to xkcd, originally by n01se. No server required courtesy of PubNub. 
+Homage to xkcd, originally by n01se. No server required courtesy of PubNub.
+RFC 6455 Support for WebSocket Client Specification Written by
+[Stephen Blum](http://twitter.com/stephenlb).
 
 #### Instructions
 
@@ -26,5 +35,4 @@ the [MPL 2.0](http://www.mozilla.org/MPL/2.0/)
 ## Running your own server
 
 No need! Just view here - http://www.pubnub.com/static/pubnub-xkcd/index.html
-
 
