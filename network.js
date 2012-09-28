@@ -3,6 +3,9 @@ var ws, clientId = PUBNUB.uuid().split('-')[0], allAvatars={}, connected, netDeb
 // hackernews mitigation by PUBNUB:
 serverURI = "ws://pubsub.pubnub.com/09e02e4d-5508-44fb-a615-8da69289b73c/a71204b3-ca89-11df-ba32-cfcef4a2b967/xkcd"
 
+function rnd(n) { return Math.random() * n }
+function r(n)   { return rnd(n) - rnd(n)   }
+
 window.addEventListener('load', function () {
   console.log("Connecting to PubNub");
   ws = new WebSocket(serverURI);
@@ -21,25 +24,16 @@ window.addEventListener('load', function () {
     var msg = e.data;
     if(msg.id) {
       if (!(msg.id in allAvatars)) allAvatars[msg.id] = {
-        "id":msg.id,"skin":"sticky","x":-595,"y":-1503.7,"dx":0,"dy":-0.008,"msg":""
+        "id"   : msg.id,
+        "skin" : "sticky",
+        "x"    : -595 + r(2000),
+        "y"    : -1503.7 + r(2000),
+        "dx"   : 0,
+        "dy"   : -0.00,
+        "msg"  : ""
       };
       $.extend(allAvatars[msg.id], msg);
-        allAvatars[msg.id]._last_update = now;
-      //allAvatars[msg.id] = msg;
-    } else if (msg.all) {
-      allAvatars = msg.all;
-      for (var id in msg.all) {
-      }
-    } else if (msg["delete"]) {
-      delete allAvatars[msg["delete"]];
-    } else if (msg.change) {
-        for (var id in msg.change) {
-            $.extend(allAvatars[id], msg.change[id]);
-            allAvatars[id]._last_update = now;
-            if(msg.change[id].skin) {
-              allAvatars[id]._skinUpdate = now;
-            }
-        }
+      allAvatars[msg.id]._last_update = now;
     } else {
         console.error("Unrecognized message type: ", msg);
     }

@@ -24,7 +24,10 @@ var ctx = viewport.getContext("2d");
 var canvas_size = {x: $('#viewport').width(), y: $('#viewport').height()};
 var canvas_center = {x: Math.round(canvas_size.x/2),
                      y: Math.round(canvas_size.y/2)};
-var scanner = $('<canvas width="' + canvas_size.x + '" height="' + canvas_size.y + '"/>');
+var scanner = $(
+    '<canvas width="' + canvas_size.x +
+    '" height="' + canvas_size.y + '"/>'
+);
 var sctx = scanner[0].getContext("2d");
 var bg_tiles = {};
 var scan_tiles = {};
@@ -202,8 +205,8 @@ function updateAvatar(now) {
 var avatar = {
   skin: "sticky",
   //x : 11659, y : -1645,  // marioland
-  x : -595,
-  y : -1494,
+  x : -595 + r(100),
+  y : -1494 + r(100),
   dx : 0,
   dy : 0,
   msg : "",
@@ -275,8 +278,7 @@ var draw = function() {
     if(avatarId != clientId) {
       ox = oa.x - Math.round(avatar.x) + oa.dx * (now - oa._last_update);
       oy = oa.y - Math.round(avatar.y) + oa.dy * (now - oa._last_update);
-      drawAvatar(oa, ox, oy, avatarId);
-      //console.log("client", avatarId, "at", ox, oy);
+      drawAvatar( oa, ox, oy, avatarId );
     }
   }
 
