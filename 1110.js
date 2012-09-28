@@ -205,8 +205,8 @@ function updateAvatar(now) {
 var avatar = {
   skin: "sticky",
   //x : 11659, y : -1645,  // marioland
-  x : -595 + r(100),
-  y : -1494 + r(100),
+  x : -595  + r(200),
+  y : -1494 + r(200),
   dx : 0,
   dy : 0,
   msg : "",
@@ -253,7 +253,8 @@ var getDensity = function (ctx, x, y, w, h, skip) {
     cnt += data[i];
   }
   //console.log("cnt:", cnt, data.length);
-  return (255-((skip*cnt)/data.length)) / 255;
+  return (255-((skip*cnt)/data.length))
+         / 255;
 };
 
 var draw = function() {
