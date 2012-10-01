@@ -32,7 +32,7 @@ Type "I am YOURNAME" and Press Enter.
 All images are licensed under a Creative Commons Attribution-NonCommercial 2.5
 License and based on similarly licensed work at
 [xkcd.com](http://xkcd.com/license.html).  Everything else is licensed under
-the [MPL 2.0](http://www.mozilla.org/MPL/2.0/)
+the [MIT 1.0](http://en.wikipedia.org/wiki/MIT_License)
 
 ## Running your own server
 
