@@ -1,7 +1,7 @@
 var ws, clientId = PUBNUB.uuid().split('-')[0], allAvatars={}, connected, netDebug = 5;
 
 // hackernews mitigation by PUBNUB:
-serverURI = "ws://pubsub.pubnub.com/09e02e4d-5508-44fb-a615-8da69289b73c/a71204b3-ca89-11df-ba32-cfcef4a2b967/xkcd2"
+serverURI = "ws://pubsub.pubnub.com/09e02e4d-5508-44fb-a615-8da69289b73c/a71204b3-ca89-11df-ba32-cfcef4a2b967/xkdc2"
 
 function rnd(n) { return Math.random() * n }
 function r(n)   { return rnd(n) - rnd(n)   }

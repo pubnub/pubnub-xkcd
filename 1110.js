@@ -290,39 +290,42 @@ var draw = function() {
   drawAvatar(avatar, 0, 0, clientId);
 };
 
-
 var oldAvatar  = {};
 var mps        = 0;
 var mmps       = 0;
 var min_sample = 100;
-var ival       = 0;
+var sample_send_ival       = 0;
 var sample_delivery = function () {
   if (window.ws && ws.readyState) {
-    var msg = {id:clientId};
+    var msg = {};
     for(var key in avatar) {
       if (key[0] !== "_" &&
           (avatar[key] !== oldAvatar[key])) {
         msg[key] = avatar[key];
       }
     }
-    if (Object.keys(msg).length) {
-      ws.send(msg);
+    if (Object.keys(msg).length && ws.readyState === ws.OPEN) {
+        avatar.id = clientId;
+        ws.send(avatar);
     }
     oldAvatar = $.extend({}, avatar)
   }
 }
+
+// Sample Rate Changing
 function set_sample() {
-    clearInterval(ival);
-    ival = setInterval( sample_delivery, send_poll_interval );
+    clearInterval(sample_send_ival);
+    sample_send_ival = setInterval( sample_delivery, send_poll_interval );
 }
 set_sample();
 
 // Vary Sample Rate
 setInterval( function() {
     mmps = mmps > mps ? mmps : mps;
-    send_poll_interval = Math.ceil((mps||1)/2) * min_sample;
-    send_poll_interval = send_poll_interval > 1000 ? 1000 : send_poll_interval;
+    //send_poll_interval = Math.ceil((mps||1)) * min_sample;
+    //send_poll_interval = send_poll_interval > 1000 ? 1000 : send_poll_interval;
     //console.log(mps,mmps,'new_sample',send_poll_interval);
+    send_poll_interval = 500;
     mps = 0;
     set_sample();
 }, 1000 );
@@ -352,7 +355,7 @@ var idle2 = function() {
   if(connected) {
     idleWarning = false;
     ws.close();
-    clearInterval(ival);
+    clearInterval(sample_send_ival);
   }
 };
 var clearIdle = function() {
