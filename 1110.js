@@ -325,7 +325,7 @@ setInterval( function() {
     //send_poll_interval = Math.ceil((mps||1)) * min_sample;
     //send_poll_interval = send_poll_interval > 1000 ? 1000 : send_poll_interval;
     //console.log(mps,mmps,'new_sample',send_poll_interval);
-    send_poll_interval = 500;
+    send_poll_interval = 200;
     mps = 0;
     set_sample();
 }, 1000 );
