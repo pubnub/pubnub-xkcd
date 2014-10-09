@@ -1,4 +1,4 @@
-# A multi-user homage to [xkcd PubNub](http://www.pubnub.com/static/pubnub-xkcd/index.html).
+# A multi-user homage to [xkcd PubNub](http://pubnub.github.io/pubnub-xkcd/).
 
 Your browser must support Canvas, WebSockets courtesy of PubNub.
 
@@ -37,5 +37,5 @@ the [MPL 2.0](http://www.mozilla.org/MPL/2.0/)
 
 ## Running your own server
 
-No need! Just view here - http://www.pubnub.com/static/pubnub-xkcd/index.html
+No need! Just view here - http://pubnub.github.io/pubnub-xkcd/
 
